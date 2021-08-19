@@ -1,4 +1,4 @@
-FROM microsoft/dotnet-nightly:2.1-sdk AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build-env
 WORKDIR /app
 
 # copy csproj and restore as distinct layers
@@ -12,7 +12,7 @@ RUN dotnet publish -c Release -o out
 
 
 # build runtime image
-FROM microsoft/dotnet-nightly:2.1-runtime-alpine
+FROM mcr.microsoft.com/dotnet/runtime:5.0-alpine
 WORKDIR /app
 COPY --from=build-env /app/out ./
 ENTRYPOINT ["dotnet", "eth-influx.dll"]
